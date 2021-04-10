@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="author" content="Szwarc" />
+  <link rel="shortcut icon" href="#" /> <!-- Usunięcie favicion error, nie do celów produkcyjncyh  -->
   <title>Digi Task 1</title>
 
   <link rel="stylesheet" href="./index.css"> 
@@ -26,38 +27,36 @@
         <label for="birthDate">
             <span>Birth Date:<span class="required">*</span></span>
             <!-- <div class="feedbackField">.</div> -->
-            <input name="birthDate" type="text" class="text-field">
+            <input name="birthDate" type="date" class="text-field">
         </label>
       </div>
 
       <div class="formField">
         <label for="photo">
-            <span>Birth Date:<span class="required">*</span></span>
+            <span>Photo:<span class="required">*</span></span>
             <!-- <div class="feedbackField">.</div> -->
-            <input name="photo" type="text" class="text-field" maxlength="4">
+            <input name="photo" type="image" class="text-field" maxlength="4">
         </label>
       </div>
 
       <div class="formField">
         <label for="email">
-            <span>Birth Date:<span class="required">*</span></span>
+            <span>Email:<span class="required">*</span></span>
             <!-- <div class="feedbackField">.</div> -->
-            <input name="email" type="text" class="text-field" maxlength="4">
+            <input name="email" type="email" class="text-field" maxlength="4">
         </label>
       </div>
 
       <div class="formField">
         <label for="phoneNumber">
-            <span>Birth Date:<span class="required">*</span></span>
+            <span>Phone Number:<span class="required">*</span></span>
             <!-- <div class="feedbackField">.</div> -->
-            <input name="phoneNumber" type="text" class="text-field" maxlength="4">
+            <input name="phoneNumber" type="number" class="text-field" maxlength="4">
         </label>
       </div>
 
       <div class="formField">
-        <label>
-            <input type="button" name="mySubmit" value="Submit" />
-        </label>
+            <button id="submitFormButton" class="submitButton" >Submit</button>
       </div>
   </form>
 	</div>

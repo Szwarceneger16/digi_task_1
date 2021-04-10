@@ -44,7 +44,7 @@
 	border: 2px solid rgb(255, 0, 0);
 }
 
-#personBirthDayAdd input[type=button]{
+#personBirthDayAdd .submitButton{
 	border: none;
 	padding: 8px 15px 8px 15px;
 	background: #FF8500;
@@ -56,7 +56,7 @@
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 }
-#personBirthDayAdd input[type=button]:hover{
+#personBirthDayAdd .submitButton:hover{
 	background: #EA7B00;
 	color: #fff;
 }
