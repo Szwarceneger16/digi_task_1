@@ -149,10 +149,7 @@ const setCalendarView = function() {
     const zoomOutImage = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        e.target.style.zIndex = 'initial';
-        e.target.style.width = "90%";
-        e.target.style.height = "auto";
-        e.target.style.position = "static";
+        e.target.classList.remove('zoomIn');
         e.target.onclick = zommInImage;
     }
     const zommInImage = (e) => {
@@ -160,10 +157,11 @@ const setCalendarView = function() {
         e.stopPropagation();
         debugger;
         const target = e.target;
-        target.style.position = "fixed";
-        target.style.zIndex = 100;
-        target.style.width = "50vw";
-        target.style.height = "50vh";
+        // target.style.position = "fixed";
+        // target.style.zIndex = 100;
+        // target.style.width = "50vw";
+        // target.style.height = "50vh";
+        target.classList.add('zoomIn');
         target.onclick = zoomOutImage;
     }
 
