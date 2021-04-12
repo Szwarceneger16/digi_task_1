@@ -1,11 +1,10 @@
 body {
-	padding-top: 5vh;
+	
 }
 
 .navbar {
-	position: absolute;
-	top: 1vh;
-	right: 1vw;
+	width: 100%;
+	text-align: end;
 }
 
 .main-button {

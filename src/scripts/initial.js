@@ -1,8 +1,8 @@
 
-document.forms[0][0].value = 'dfdffd'
-document.forms[0][1].valueAsDate = new Date()
-document.forms[0][3].value = 'sdasd@dasdad'
-document.forms[0][4].value = '555-555-555'
+// document.forms[0][0].value = 'dfdffd'
+// document.forms[0][1].valueAsDate = new Date()
+// document.forms[0][3].value = 'sdasd@dasdad'
+// document.forms[0][4].value = '555-555-555'
 // obsluga modala
 {
     const modal = document.getElementById("myModal");
@@ -14,20 +14,6 @@ document.forms[0][4].value = '555-555-555'
     window.addEventListener('click', (e) => {
         if (e.target === modal) modal.style.display = "none";
     },false)
-}
-
-// dodanie venetow dla przyciskow do obslugi kalendarza
-{
-    const calendarHeaderButtons = document.querySelectorAll('#calendarHeader button');
-    // prev button
-    calendarHeaderButtons[0].addEventListener( 'click' , () => {
-        setCalendarView(-1);
-    })
-    //next button
-    calendarHeaderButtons[1].addEventListener( 'click' , () => {
-        setCalendarView(1);
-    })
-
 }
 
 // ustawienie pola z wyborem aktualnej daty urodzin maksymalnie na dzis

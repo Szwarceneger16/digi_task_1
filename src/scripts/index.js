@@ -14,7 +14,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }, false
     );
 
+    // dodanie venetow dla przyciskow do obslugi kalendarza
+    {
+        const calendarHeaderButtons = document.querySelectorAll('#calendarHeader button');
+        // prev button
+        calendarHeaderButtons[0].addEventListener( 'click' , () => {
+            setCalendarView(-1);
+        })
+        //next button
+        calendarHeaderButtons[1].addEventListener( 'click' , () => {
+            setCalendarView(1);
+        })
+    }
 
+    setCalendarView(0);
 });
 
 // funkcja sprawdzajaca poprawnosc formualrza
@@ -46,8 +59,8 @@ function valdiateForm() {
         "phoneNumber": formElements['phoneNumber'].value
     }
 
-    form.reset();
-    toggleViews()
+    
+    toggleViews().then( () => form.reset() )
     
     getDataFromAPODApi(newDataObject.birthDate)
     .then( res => {
@@ -77,7 +90,7 @@ async function getDataFromAPODApi(date) {
         console.error(err);
     })
 }
-window.getAPOD = getDataFromAPODApi;
+//window.getAPOD = getDataFromAPODApi;
 
 // animacja przejscia pomiedzy formualrzem a kalendarzem
 async function toggleViews() {
@@ -117,11 +130,31 @@ async function toggleViews() {
 }
 
 const setCalendarView = function() {
-    let calendarDateReference = new Date();
+    let calendarDateReference = undefined;
+
     // nazwy meisiecy do kalendarza
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
+
+    const zoomOutImage = (e) => {
+        e.preventDefault();
+        e.target.style.zIndex = 'initial';
+        e.target.style.width = "90%";
+        e.target.style.height = "auto";
+        e.target.style.position = "static";
+        e.target.onclick = zommInImage;
+    }
+    const zommInImage = (e) => {
+        e.preventDefault();
+
+        e.target.style.position = "absolute";
+        e.target.style.zIndex = 100;
+        e.target.style.width = "50vw";
+        e.target.style.height = "50vh";
+        e.target.onclick = zoomOutImage;
+        return false;
+    }
 
     const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
     // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
@@ -161,7 +194,6 @@ const setCalendarView = function() {
     function addBirthInCalendar(data, element) {
         //const calendarElementChildreen = document.getElementById('calendar').children[6+data.birthDate.getDate()];
         element.style.backgroundImage = `url(${data.apodImage.url})`;
-        element.style.cursor = "pointer";
 
         // jesli modal byl dotychczas nie uzyty, natychmaistowe przypisanie danych
         const modalChildren = myModal.getElementsByClassName('modal-body')[0].children;
@@ -171,7 +203,8 @@ const setCalendarView = function() {
             modalChildren[5].firstElementChild.src = data.apodImage.hdurl;
         }
         // event po klikniecu dnia na kalendarzu
-        element.children[0].addEventListener('click', (e) => {
+        element.addEventListener('click', (e) => {
+            if ( e.target != element) return;
             const modalChildren = myModal.getElementsByClassName('modal-body')[0].children;
 
             if ( modalChildren[5].firstElementChild.src !== data.apodImage.hdurl ) {
@@ -186,11 +219,13 @@ const setCalendarView = function() {
             myModal.style.display = "block";  
 
         }, false )
+        element.style.cursor = "pointer";
         
         element.children[1].innerHTML = data.name;
         element.children[2].onload = function() {
             URL.revokeObjectURL(this.src);
         }
+        element.children[2].onclick = zommInImage;
         element.children[2].src = URL.createObjectURL(data.photo);
         element.children[3].innerHTML = new Date().getFullYear() - data.birthDate.getFullYear() + " births";
         element.children[4].innerHTML = data.email;
@@ -206,6 +241,13 @@ const setCalendarView = function() {
         element.style.cursor = "";
     }
 
+    const initCalendarDateReference = (inputdate) => {
+        calendarDateReference = new Date(inputdate.getTime());
+        calendarDateReference.setDate(1);
+        calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
+        calendarHeaderElementChilds[1].innerHTML =  monthNames[calendarDateReference.getMonth()];
+    }
+    initCalendarDateReference(new Date());
     const calendarElement = document.getElementById('calendar');
     
     return function (dateNow) {
@@ -213,10 +255,8 @@ const setCalendarView = function() {
         if ( typeof dateNow === 'undefined' ) return false;
         // przypisanie daty do kalendarza jesli nie jest zadna przypisana
         if ( dateNow instanceof Date ) {
-            calendarDateReference = new Date(dateNow.getTime());
-            calendarDateReference.setDate(1);
-            calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
-            calendarHeaderElementChilds[1].innerHTML =  monthNames[calendarDateReference.getMonth()];
+            
+            initCalendarDateReference(dateNow);
             setListView(calendarDateReference);
             
         } else if ( typeof dateNow === "number") {
