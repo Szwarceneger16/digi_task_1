@@ -1,0 +1,214 @@
+body {
+	padding-top: 5vh;
+}
+
+.navbar {
+	position: absolute;
+	top: 1vh;
+	right: 1vw;
+	z-index: 1000;
+}
+
+.main-button {
+	border: none;
+	padding: 8px 15px 8px 15px;
+	background: #FF8500;
+	color: #fff;
+	box-shadow: 1px 1px 4px #DADADA;
+	border-radius: 3px;
+}
+
+#toogleViewButton:disabled {
+	background: #2e2d2b;
+	color: rgb(189, 189, 189);
+}
+
+.main-button:hover{
+	background: #EA7B00;
+	color: #fff;
+}
+
+#toogleViewButton:disabled:hover {
+	background: #2e2d2b;
+	color: rgb(189, 189, 189);
+}
+
+#createView {
+    margin: auto;
+    width: min-content;
+    --set-font-size: 1.0em;
+    --inputs-width: 48%;
+    --labels-width: 20%;
+	display: block;
+}
+
+.formField {
+    display: grid;
+    grid-template-columns: 120px 220px;
+    grid-template-rows: 30px 30px;
+    grid-gap: 5px;
+}
+
+#createView label {
+    align-self: center;
+    
+}
+
+#createView .errorMessage {
+    align-self: flex-start;
+    justify-self: start;
+    grid-column-start: 2;
+    color: rgb(163, 0, 0);
+}
+
+#createView .input-field-image {
+    outline: none;
+    align-self: center;
+}
+
+.input-field
+{
+    align-self: center;
+	box-sizing: border-box;
+	border: 1px solid #C2C2C2;
+	box-shadow: 1px 1px 4px #EBEBEB;
+	border-radius: 3px;
+	padding: 7px;
+	outline: none;
+}
+
+#createView span.required{
+	color:red;
+}
+#createView input:focus{
+	border: 2px solid rgb(4, 0, 255);
+}
+
+#createView .valid{
+	border: 2px solid rgb(68, 216, 0);
+}
+
+#createView .invalid{
+	border: 2px solid rgb(255, 0, 0);
+}
+
+#createView .formField button{
+	grid-column: span 2;
+}
+
+@keyframes toggleViewAniamtion {
+    from {
+        transform: scale(1);
+		opacity: 1;
+    }
+	to {
+        transform: scale(0);
+        opacity: 0;
+	}
+  }
+
+/* Modal style section */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 100px;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.modal-content {
+	background-color: orange;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80vw;
+	height:80vh;
+	overflow-y: scroll;
+}
+
+.modal-close {
+	color: #e60303;
+	float: right;
+	font-size: 8vw;
+	line-height: 4vw;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.modal-body {
+	display: grid;
+	width: 100%;
+	grid-template-columns: 12vw auto;
+	grid-template-rows: repeat(3, auto);
+	font-family: Arial, Helvetica, sans-serif;
+	column-gap: 5px;
+	font-size: 2vh;
+	place-items: center;
+}
+
+.modal-body p {
+	padding: 5px;
+}
+
+.modal-body img {
+	padding: 5px;
+	width: 100%;
+	object-fit: contain;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#listOfBirthdays {
+	padding: 4vh 1vw;
+	width: 90vw;
+	padding-inline-start: 0px;
+}
+
+#listOfBirthdays li {
+	display: grid;
+	grid-template-columns: 3fr 3fr 3fr 3fr repeat(2,1fr);
+	grid-template-rows: 10vh;
+	place-items: center;
+	margin: 1vh;
+	background-color: rgb(167, 167, 167);
+	border-radius: 20px;
+}
+
+#listOfBirthdays li:first-child {
+	background-color: rgb(158, 91, 91);
+	grid-template-rows: 5vh;
+}
+
+#listOfBirthdays li button {
+	height: 100%;
+	width: 100%;
+	padding: 20%;
+	border: none;
+	background: none;
+}
+
+#listOfBirthdays li input {
+	width: 90%;
+}
+
+/* #listOfBirthdays li button:first-child {
+	background: url(./../img/trash.svg);
+}
+
+#listOfBirthdays li button:nth-child(1) {
+	background: url(./../img/pencil.svg);
+} */
+
+#listOfBirthdays img {
+	object-fit: contain;
+	height: 100%;
+	width: 100%;
+}
