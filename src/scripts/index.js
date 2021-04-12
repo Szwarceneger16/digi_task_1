@@ -9,8 +9,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     document.getElementById('toogleViewButton').addEventListener(
         'click', 
-        async () => {
-           await toggleViews();
+        async (e) => {
+            e.target.setAttribute('disabled',"");
+            toggleViews()
+            .then( () => e.target.removeAttribute('disabled') );
         }, false
     );
 
@@ -79,7 +81,9 @@ function valdiateForm() {
 // funkcja pobierajaca obrazy z apod api
 // argument date: obiekt Date z data dla szukanego obrazu
 async function getDataFromAPODApi(date) {
-    return fetch(`https://api.nasa.gov/planetary/apod?api_key=${keyApiAPOD}&date=${date.toISOString().split("T")[0]}`,
+    return fetch(
+        `https://api.nasa.gov/planetary/apod?api_key=${keyApiAPOD}&date=${date.
+        toISOString().split("T")[0]}`,
     {
         method: 'GET',
         mode: 'cors',
@@ -99,12 +103,14 @@ async function toggleViews() {
         showViewElement = document.getElementById('showView');
     
         if (  window.getComputedStyle(createViewElement, null).display === 'block' ) {
-            createViewElement.style.animation = 'toggleViewAniamtion 1s 1';
+            createViewElement.style.animation = 'toggleViewAniamtion 1s 1 normal both';
+            
 
             setTimeout( () => {
                 createViewElement.style.display = 'none';
                 showViewElement.style.display = 'block';
-                showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse';
+                showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both';
+                // showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both';
                 setTimeout( () => {
                     createViewElement.style.animation = '';
                     showViewElement.style.animation = '';
@@ -113,12 +119,15 @@ async function toggleViews() {
                 
             },1000)
         } else {
-            showViewElement.style.animation = 'toggleViewAniamtion 1s 1';
+            //debugger;
+            showViewElement.style.animation = 'toggleViewAniamtion 1s 1 both';
+            
             
             setTimeout( () => {
                 showViewElement.style.display = 'none';
                 createViewElement.style.display = 'block';
-                createViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse';
+                createViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both ';
+                // createViewElement.style.animation = 'toggleViewAniamtion 1s 1s 1 reverse both';
                 setTimeout( () => {
                     showViewElement.style.animation = '';
                     createViewElement.style.animation = '';
@@ -166,6 +175,7 @@ const setCalendarView = function() {
                 calendarDateReference.setFullYear(calendarDateReference.getFullYear() - 1)
                 // ustawienie roku dla kalendarza
                 calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
+                setListView(new Date(calendarDateReference.getTime()));
             }else{
                 calendarDateReference.setMonth( actualMonth - 1);
             }
@@ -178,6 +188,7 @@ const setCalendarView = function() {
                 calendarDateReference.setFullYear(calendarDateReference.getFullYear() + 1)
                 // ustawienie roku dla kalendarza
                 calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
+                setListView(new Date(calendarDateReference.getTime()));
             }else{
                 calendarDateReference.setMonth( actualMonth + 1);
             }
@@ -271,10 +282,14 @@ const setCalendarView = function() {
 
         // ustawienie wszytskich urodzin w danym miesiacu z bazy danych
         const birthsInThisMonth = storage.getBirthsByMonth(calendarDateReference);
+        birthsInThisMonth.sort( (firstElement,secondElement) => {
+            return firstElement.birthDate.getDate() - secondElement.birthDate.getDate();
+        })
         // indeks do przebiegania tablicy birthsInThisMonth
         let birthsInThisMonthIndex = 0;
         const setCalendarDayCard = (el,index) => {
-            if ( birthsInThisMonth[birthsInThisMonthIndex] && index === birthsInThisMonth[birthsInThisMonthIndex].birthDate.getDate() ) {
+            if ( birthsInThisMonth[birthsInThisMonthIndex] && index === 
+                birthsInThisMonth[birthsInThisMonthIndex].birthDate.getDate() - 1 ) {
                 addBirthInCalendar(birthsInThisMonth[birthsInThisMonthIndex], el);
                 birthsInThisMonthIndex++;
             } else {
@@ -339,15 +354,18 @@ function editBirth(id,element) {
 
     const newLiElement = document.createElement('li');
     newLiElement.insertAdjacentHTML('beforeend',`
-    <input type='date' class='input-field' required value='${ new Date(elementChildren[0].innerHTML).toISOString().split("T")[0]}'>
+    <input type='date' class='input-field' required value='${ 
+        new Date(elementChildren[0].innerHTML).toISOString().split("T")[0]}'>
     <input type='file' accept="image/png, image/jpeg" style='width:90%' required>
     <input type='text' class='input-field' value='${elementChildren[2].innerHTML}' required>
     <input type='email' class='input-field' value='${elementChildren[3].innerHTML}' required>
     <button>
-        <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
+        <img author='bqlqn' title="bqlqn" 
+        from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
     </button>
     <button>
-        <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
+        <img author='bqlqn' title="bqlqn" 
+        from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
     </button>
     `)
     newLiElement.children[4].onclick = submitEdit;
@@ -406,13 +424,14 @@ function setListView(date) {
                 <p>${birthday.name}</p>
                 <p>${birthday.email}</p>
                 <button>
-                    <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
+                    <img author='bqlqn' title="bqlqn" 
+                    from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
                 </button>
                 <button>
-                    <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
+                    <img author='bqlqn' title="bqlqn" 
+                    from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
                 </button>
             </li>`
             )
     })
-    
 }
