@@ -168,32 +168,17 @@ const setCalendarView = function() {
     const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
     // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
     const moveCalendarViewByMonth = (direction) => {
+        if ( typeof direction !== 'number') return;
         const actualMonth = calendarDateReference.getMonth();
-        if (direction < 0) {
-            if( actualMonth === 0 ) {
-                calendarDateReference.setMonth( 11);
-                calendarDateReference.setFullYear(calendarDateReference.getFullYear() - 1)
-                // ustawienie roku dla kalendarza
-                calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
-                setListView(new Date(calendarDateReference.getTime()));
-            }else{
-                calendarDateReference.setMonth( actualMonth - 1);
-            }
-            // ustawienie miesiaca dla kalendarza
-            calendarHeaderElementChilds[1].innerHTML =  monthNames[calendarDateReference.getMonth()];
+        direction = direction > 0 ? 1 : -1;
+        calendarDateReference.setMonth( actualMonth + direction);
 
-        } else if (direction > 0) {
-            if( actualMonth === 11 ) {
-                calendarDateReference.setMonth( 0);
-                calendarDateReference.setFullYear(calendarDateReference.getFullYear() + 1)
-                // ustawienie roku dla kalendarza
-                calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
-                setListView(new Date(calendarDateReference.getTime()));
-            }else{
-                calendarDateReference.setMonth( actualMonth + 1);
-            }
-            // ustawienie miesiaca dla kalendarza
-            calendarHeaderElementChilds[1].innerHTML =  monthNames[calendarDateReference.getMonth()];
+        // ustawienie miesiaca dla kalendarza
+        calendarHeaderElementChilds[1].innerHTML =  monthNames[calendarDateReference.getMonth()];
+        // ustawienie roku dla naglowka kalendarza i przeladowanie listy
+        if (actualMonth === 0 || actualMonth === 11) {
+            calendarHeaderElementChilds[0].innerHTML = calendarDateReference.getFullYear();
+            setListView(new Date(calendarDateReference.getTime()));
         }
     }
     // funkcja oblcizajaca liczbe dni w danym miesiacu

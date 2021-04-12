@@ -8,8 +8,12 @@
     display: grid;
     grid-template-columns: repeat(4,min-content);
     grid-template-rows: 12vh;
-    font-size: 4vh;
     place-items: center;
+}
+
+#calendarHeader p {
+    font-size: max(5vw,4vh);
+    padding: 0px 10px;
 }
 
 #calendarHeader button {
@@ -20,15 +24,15 @@
     border: none;
     padding: 1vh 2vw;
     margin: 1vh 1vw;
-    font-size: 2vh;
+    font-size: max(3vw,2vh);
 }
 
-@media only screen and (min-width: 550px) {
-    #calendarHeader {
-        font-size: 4vw;
+@media only screen and (min-width: 750px) {
+    #calendarHeader p {
+        font-size: min(5vw,5vh);
     }
     #calendarHeader button {
-        font-size: 2vw;
+        font-size: min(3vw,3vh);
     }
 }
 
