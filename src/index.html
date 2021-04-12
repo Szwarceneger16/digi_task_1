@@ -8,73 +8,128 @@
   <link rel="shortcut icon" href="#" /> <!-- Usunięcie favicion error, nie do celów produkcyjncyh  -->
   <title>Digi Task 1</title>
 
-  <link rel="stylesheet" href="./index.css"> 
+  <link rel="stylesheet" href="./style/createView.css">
+  <link rel="stylesheet" href="./style/displayView.css"> 
 </head>
 
-<body style="align-self: center;">
-	<div id='personBirthDayAdd'>
-    <form id="personBirthDayAddForm" name="personBirthDayAddForm" >
+<body>
+  <div class="navbar">
+    <button id="toogleViewButton" class="main-button" >Toggle View</button>
+  </div>
+
+	<div id='createView'>
+    <form id="personBirthDayAddForm" name="personBirthDayAddForm" action="" novalidate>
 
       <div class="formField">
-          <label for="title">
-            <span>Name:<span class="required">*</span></span>
-            <!-- <div class="feedbackField">.</div> -->
-            <input name="title" type="text" class="text-field">
+        <label for="name">
+          Name:<span class="required">*</span>
         </label>
+        <input name="name" type="text"  class="input-field" 
+        placeholder="John"
+        required>
+        <div class="errorMessage"></div>
       </div>
       
       <div class="formField">
         <label for="birthDate">
-            <span>Birth Date:<span class="required">*</span></span>
-            <!-- <div class="feedbackField">.</div> -->
-            <input name="birthDate" type="date" class="text-field">
+          Birth Date:<span class="required">*</span>
         </label>
+        <input name="birthDate" type="date" class="input-field" required>
+        <div class="errorMessage"></div>
       </div>
 
       <div class="formField">
         <label for="photo">
-            <span>Photo:<span class="required">*</span></span>
-            <!-- <div class="feedbackField">.</div> -->
-            <input name="photo" type="image" class="text-field" maxlength="4">
+          Photo:<span class="required">*</span>
         </label>
+        <input 
+          name="photo" type="file" 
+          accept="image/png, image/jpeg" 
+          class="input-field-image" 
+          required
+          >
+        <div class="errorMessage"></div>
       </div>
 
       <div class="formField">
         <label for="email">
-            <span>Email:<span class="required">*</span></span>
-            <!-- <div class="feedbackField">.</div> -->
-            <input name="email" type="email" class="text-field" maxlength="4">
+          Email:<span class="required">*</span>
         </label>
+        <input name="email" type="email" class="input-field" 
+          placeholder="abc@abc.xyz"
+          required>
+        <div class="errorMessage"></div>
       </div>
 
       <div class="formField">
         <label for="phoneNumber">
-            <span>Phone Number:<span class="required">*</span></span>
-            <!-- <div class="feedbackField">.</div> -->
-            <input name="phoneNumber" type="number" class="text-field" maxlength="4">
+            Phone Number:<span class="required">*</span>
         </label>
+        <input name="phoneNumber" type="text" class="input-field"
+          pattern="^(\+?([0-9]{2}))?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{3})$" 
+          placeholder="+56-555-555-555"
+          required
+          >
+        <div class="errorMessage"></div>
       </div>
+    </form>
 
       <div class="formField">
-            <button id="submitFormButton" class="submitButton" >Submit</button>
+            <button id="personBirthDayAddFormSubmitButton" class="main-button" >Submit</button>
       </div>
-  </form>
+    
+
 	</div>
-  <div id='addForm'>
-	
+
+
+  <div id='showView'>
+    <div id='calendarHeader'>
+      <p></p>
+      <p></p>
+      <button>Prev Month</button>
+      <button>Next Month</button>
+    </div>
+    <div class="calendarWrapper">
+
+      <div id='calendar'>
+  
+      </div>
+    </div>
+    
+
+    <ul id="listOfBirthdays">
+      <li>
+        <p>Date</p>
+        <p>Photo</p>
+        <p>Name</p>
+        <p>Email</p>
+        <p></p>
+        <p></p>
+      </li>
+      <li>
+        <p></p>
+        <img >
+        <p></p>
+        <p></p>
+        <button>
+          <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
+        </button>
+        <button>
+          <img author='bqlqn' title="bqlqn" from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
+        </button>
+      </li>
+    </ul>
+
 	</div>
-<<<<<<< Updated upstream
-	<script src="./index.js"></script>
-=======
 
   <div id="myModal" class="modal">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
       <div class="modal-body">
         <p>Title</p>
-        <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        <p></p>
         <p>Description</p>
-        <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        <p></p>
         <p>Photo</p>
         <div><img width="100%"></div>
       </div>
@@ -85,5 +140,4 @@
   <script type="text/javascript" src="./scripts/initial.js"></script>
 	<script type="module" src="./scripts/index.js"></script>
   
->>>>>>> Stashed changes
 </body>
