@@ -1,8 +1,8 @@
 
-// document.forms[0][0].value = 'dfdffd'
-// document.forms[0][1].valueAsDate = new Date()
-// document.forms[0][3].value = 'sdasd@dasdad'
-// document.forms[0][4].value = '555-555-555'
+document.forms[0][0].value = 'dfdffd'
+document.forms[0][1].valueAsDate = new Date()
+document.forms[0][3].value = 'sdasd@dasdad'
+document.forms[0][4].value = '555-555-555'
 // obsluga modala
 {
     const modal = document.getElementById("myModal");

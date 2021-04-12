@@ -351,7 +351,11 @@ function editBirth(id,element) {
     </button>
     `)
     newLiElement.children[4].onclick = submitEdit;
-    newLiElement.children[5].onclick = elementChildren[5].onclick;
+    newLiElement.children[5].onclick = (e) => {
+        elementChildren[5].onclick();
+        const editLiElement = e.target.parentElement.parentElement;
+        editLiElement.parentElement.removeChild(editLiElement);
+    } 
     element.parentElement.insertBefore(newLiElement,element);
 
     element.style.display = 'none';
