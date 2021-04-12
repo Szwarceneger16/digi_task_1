@@ -1,0 +1,99 @@
+#showView {
+    margin: auto;
+    width: 100%;
+    display: none;
+}
+
+#calendarHeader {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: 12vh;
+    font-size: 8vh;
+    place-items: center;
+}
+
+#calendarHeader button {
+    background:  #EBEBEB;
+    color: black;
+    box-shadow: 1px 1px 4px #DADADA;
+	border-radius: 3px;
+    border: none;
+    width: 90%;
+    height: 70%;
+}
+
+#calendarHeader button:hover {
+	background: #8b8884;
+	color: #fff;
+}
+
+#calendar {
+    min-width: 700px;
+    min-height: 600px;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-template-rows: 30px repeat(5,10vh);
+    row-gap: 5px;
+    column-gap: 5px;
+    place-items: stretch;
+}
+
+#calendar .week-name {
+    box-sizing: border-box;
+	border: 1px solid #C2C2C2;
+	background-color:  #EBEBEB;
+    width: 100%;
+    line-height: 30px;
+    text-align: center;
+}
+
+#calendar .day {
+    background-repeat:no-repeat;
+    background-color: aliceblue;
+    background-size:cover;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 4vw 9vw;
+    row-gap: 0px;
+    grid-template-rows: 4vw 2vw 4vw;
+    place-items: center;
+    border-radius: 10px;
+}
+
+#calendar .day p {
+    font-family: 'Arial', Arial, monospace;
+    font-weight: 600;
+    color: #ff1111;
+    font-size: 1.5vw;
+    background-color: #00000036;
+}
+
+#calendar .day p:first-child {
+    font-family: 'Courier New', Courier, monospace;
+    box-sizing: border-box;
+	border: 1px solid #C2C2C2;
+	box-shadow: 1px 1px 4px #EBEBEB;
+    border-radius: 5px;
+    background-color: #b1fffba1;
+    font-size: 1.5vw;
+    grid-row: span 2;
+    width: 3vw;
+    height: 3vw;
+    text-align: center;
+    line-height: 3vw;
+    font-size: 2vw;
+}
+
+#calendar .day p:last-child {
+    grid-column: span 2;
+    width: 95%;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.calendarWrapper  {
+    display: block;
+    width: 100%;
+    overflow-x: scroll;
+}
