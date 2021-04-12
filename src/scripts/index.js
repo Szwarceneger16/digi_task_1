@@ -188,15 +188,20 @@ const setCalendarView = function() {
         }, false )
         
         element.children[1].innerHTML = data.name;
-        element.children[2].innerHTML = new Date().getFullYear() - data.birthDate.getFullYear() + " births";
-        element.children[3].innerHTML = data.email;
+        element.children[2].onload = function() {
+            URL.revokeObjectURL(this.src);
+        }
+        element.children[2].src = URL.createObjectURL(data.photo);
+        element.children[3].innerHTML = new Date().getFullYear() - data.birthDate.getFullYear() + " births";
+        element.children[4].innerHTML = data.email;
     }
 
     // funkcja usuwajaca urodziny z widoku kalendarza
     function clearBirthInCalendar(element) {
         element.children[1].innerHTML = "";
-        element.children[2].innerHTML = "";
+        element.children[2].src = "";
         element.children[3].innerHTML = "";
+        element.children[4].innerHTML = "";
         element.style.backgroundImage = '';
         element.style.cursor = "";
     }
@@ -334,10 +339,11 @@ function setListView(date) {
             const id = birthday.id.valueOf();
             const element = el;
             el.children[0].innerHTML = birthday.birthDate.toDateString();
-            el.children[1].src = URL.createObjectURL(birthday.photo);
             el.children[1].onload = function() {
                 URL.revokeObjectURL(this.src);
             }
+            el.children[1].src = URL.createObjectURL(birthday.photo);
+
             el.children[2].innerHTML = birthday.name;
             el.children[3].innerHTML = birthday.email;
             el.children[4].onclick = function() { editBirth(id,element) } ;

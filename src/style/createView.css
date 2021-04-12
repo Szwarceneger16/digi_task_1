@@ -6,7 +6,6 @@ body {
 	position: absolute;
 	top: 1vh;
 	right: 1vw;
-	z-index: 1000;
 }
 
 .main-button {
@@ -40,6 +39,7 @@ body {
     --inputs-width: 48%;
     --labels-width: 20%;
 	display: block;
+	margin-top: 5vh;
 }
 
 .formField {
@@ -106,109 +106,3 @@ body {
         opacity: 0;
 	}
   }
-
-/* Modal style section */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 100px;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-}
-
-.modal-content {
-	background-color: orange;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80vw;
-	height:80vh;
-	overflow-y: scroll;
-}
-
-.modal-close {
-	color: #e60303;
-	float: right;
-	font-size: 8vw;
-	line-height: 4vw;
-	font-weight: 900;
-	cursor: pointer;
-}
-
-.modal-body {
-	display: grid;
-	width: 100%;
-	grid-template-columns: 12vw auto;
-	grid-template-rows: repeat(3, auto);
-	font-family: Arial, Helvetica, sans-serif;
-	column-gap: 5px;
-	font-size: 2vh;
-	place-items: center;
-}
-
-.modal-body p {
-	padding: 5px;
-}
-
-.modal-body img {
-	padding: 5px;
-	width: 100%;
-	object-fit: contain;
-}
-
-.close:hover,
-.close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-#listOfBirthdays {
-	padding: 4vh 1vw;
-	width: 90vw;
-	padding-inline-start: 0px;
-}
-
-#listOfBirthdays li {
-	display: grid;
-	grid-template-columns: 3fr 3fr 3fr 3fr repeat(2,1fr);
-	grid-template-rows: 10vh;
-	place-items: center;
-	margin: 1vh;
-	background-color: rgb(167, 167, 167);
-	border-radius: 20px;
-}
-
-#listOfBirthdays li:first-child {
-	background-color: rgb(158, 91, 91);
-	grid-template-rows: 5vh;
-}
-
-#listOfBirthdays li button {
-	height: 100%;
-	width: 100%;
-	padding: 20%;
-	border: none;
-	background: none;
-}
-
-#listOfBirthdays li input {
-	width: 90%;
-}
-
-/* #listOfBirthdays li button:first-child {
-	background: url(./../img/trash.svg);
-}
-
-#listOfBirthdays li button:nth-child(1) {
-	background: url(./../img/pencil.svg);
-} */
-
-#listOfBirthdays img {
-	object-fit: contain;
-	height: 100%;
-	width: 100%;
-}

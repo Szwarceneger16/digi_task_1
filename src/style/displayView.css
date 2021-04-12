@@ -28,11 +28,12 @@
 }
 
 #calendar {
-    min-width: 700px;
-    min-height: 600px;
+    width: 100%;
+    min-width: 1000px;
+    min-height: 700px;
     display: grid;
     grid-template-columns: repeat(7,1fr);
-    grid-template-rows: 30px repeat(5,10vh);
+    grid-template-rows: 30px repeat(5,1fr);
     row-gap: 5px;
     column-gap: 5px;
     place-items: stretch;
@@ -53,47 +54,195 @@
     background-size:cover;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: 4vw 9vw;
+    grid-template-columns: 40% [center-line] 60%;
     row-gap: 0px;
-    grid-template-rows: 4vw 2vw 4vw;
+    grid-template-rows: 40% 20% 40%;
     place-items: center;
     border-radius: 10px;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 #calendar .day p {
     font-family: 'Arial', Arial, monospace;
     font-weight: 600;
     color: #ff1111;
-    font-size: 1.5vw;
+    font-size: 1.5vh;
     background-color: #00000036;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin: 5%;
+}
+
+#calendar .day img {
+    grid-row: span 2;
+    width: 90%;
+    object-fit: contain;
 }
 
 #calendar .day p:first-child {
     font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
-	border: 1px solid #C2C2C2;
-	box-shadow: 1px 1px 4px #EBEBEB;
+    border: 1px solid #C2C2C2;
+    box-shadow: 1px 1px 4px #EBEBEB;
     border-radius: 5px;
     background-color: #b1fffba1;
-    font-size: 1.5vw;
-    grid-row: span 2;
-    width: 3vw;
-    height: 3vw;
+    font-size: 1em;
+    /* grid-row: span 2; */
+    width: 75%;
     text-align: center;
-    line-height: 3vw;
-    font-size: 2vw;
+    line-height: 2em;
 }
 
 #calendar .day p:last-child {
-    grid-column: span 2;
     width: 95%;
     overflow: hidden;
     word-wrap: break-word;
     text-align: center;
 }
 
+@media only screen and (min-width: 701px) {
+    #calendar .day {
+        
+    }
+
+    #calendar .day p {
+
+    }
+
+    #calendar .day p:first-child {
+        
+    }
+
+
+  }
+
 .calendarWrapper  {
     display: block;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
+
+.listWrapper  {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Modal style section */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 50px;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.modal-content {
+	background-color: orange;
+	margin: auto;
+	padding: px;
+	border: 1px solid #888;
+    box-shadow: 10px 10px 17px #CC8989;
+	width: 90vw;
+	height:90vh;
+	overflow-y: scroll;
+}
+
+.modal-close {
+	color: #e60303;
+	float: right;
+	font-size: 8vw;
+	line-height: 4vw;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.modal-body {
+	display: grid;
+	width: 100%;
+	grid-template-columns: 12vw auto;
+	grid-template-rows: repeat(3, auto);
+	font-family: Arial, Helvetica, sans-serif;
+	column-gap: 5px;
+	font-size: 2vh;
+	place-items: center start;
+}
+
+.modal-body p {
+	padding: 5px;
+}
+
+.modal-body p:nth-child(2n-1) {
+    writing-mode: sideways-lr;
+    -webkit-writing-mode: sideways-lr;
+    -ms-writing-mode: sideways-lr;
+}
+
+.modal-body img {
+	padding: 5px;
+	width: 90%;
+	object-fit: contain;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#listOfBirthdays {
+	padding: 4vh 1vw;
+	width: 90vw;
+	padding-inline-start: 0px;
+}
+
+#listOfBirthdays li {
+	display: grid;
+    min-width: 325px;
+	grid-template-columns: 24% 13% 22% 24% repeat(2,8%);
+	grid-template-rows: 10vh;
+	place-items: center;
+    overflow: hidden;
+    word-wrap: break-word;
+	margin: 1vh;
+	background-color: rgb(167, 167, 167);
+	border-radius: 20px;
+}
+
+#listOfBirthdays li:first-child {
+	background-color: rgb(158, 91, 91);
+	grid-template-rows: 5vh;
+}
+
+#listOfBirthdays li button {
+	height: 100%;
+	width: 100%;
+	padding: 20%;
+	border: none;
+	background: none;
+}
+
+#listOfBirthdays li input, #listOfBirthdays li p {
+	width: 90%;
+    text-align: center;
+}
+
+/* #listOfBirthdays li button:first-child {
+	background: url(./../img/trash.svg);
+}
+
+#listOfBirthdays li button:nth-child(1) {
+	background: url(./../img/pencil.svg);
+} */
+
+#listOfBirthdays img {
+	object-fit: contain;
+	height: 100%;
+	width: 100%;
+}
+

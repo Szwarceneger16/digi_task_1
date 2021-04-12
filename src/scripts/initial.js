@@ -1,4 +1,8 @@
 
+document.forms[0][0].value = 'dfdffd'
+document.forms[0][1].valueAsDate = new Date()
+document.forms[0][3].value = 'sdasd@dasdad'
+document.forms[0][4].value = '555-555-555'
 // obsluga modala
 {
     const modal = document.getElementById("myModal");
@@ -23,6 +27,7 @@
     calendarHeaderButtons[1].addEventListener( 'click' , () => {
         setCalendarView(1);
     })
+
 }
 
 // ustawienie pola z wyborem aktualnej daty urodzin maksymalnie na dzis
@@ -35,6 +40,21 @@ document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
 {
     const weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const calendarElement = document.getElementById('calendar');
+
+    // window.addEventListener('scroll', (e) => {
+    //     if ( e.target == calendarElement) {
+    //         e.preventDefault();
+    //     }
+    // },false);
+    // calendarElement.addEventListener('wheel', (e) => {
+    //     if (e.deltaY > 0) {
+    //         if (calendarElement.parentElement.scrollLeft < calendarElement.parentElement.scrollWidth - document.body.scrollWidth) {
+    //             calendarElement.parentElement.scrollLeft += 10;
+    //         }
+    //     } else if (calendarElement.parentElement.scrollLeft > 0) {
+    //         calendarElement.parentElement.scrollLeft -= 10;
+    //     }
+    // },false);
     
     weekDays.forEach(element => {
         calendarElement.insertAdjacentHTML('beforeend', `<div class="week-name">${element}</div>`)
@@ -50,6 +70,7 @@ document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
             `<div class='day'>
                 <p>${index}</p>
                 <p></p>
+                <img>
                 <p></p>
                 <p></p>
             </div>`
