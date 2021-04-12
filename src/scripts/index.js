@@ -148,6 +148,7 @@ const setCalendarView = function() {
 
     const zoomOutImage = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         e.target.style.zIndex = 'initial';
         e.target.style.width = "90%";
         e.target.style.height = "auto";
@@ -156,13 +157,14 @@ const setCalendarView = function() {
     }
     const zommInImage = (e) => {
         e.preventDefault();
-
-        e.target.style.position = "absolute";
-        e.target.style.zIndex = 100;
-        e.target.style.width = "50vw";
-        e.target.style.height = "50vh";
-        e.target.onclick = zoomOutImage;
-        return false;
+        e.stopPropagation();
+        debugger;
+        const target = e.target;
+        target.style.position = "fixed";
+        target.style.zIndex = 100;
+        target.style.width = "50vw";
+        target.style.height = "50vh";
+        target.onclick = zoomOutImage;
     }
 
     const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
@@ -215,7 +217,7 @@ const setCalendarView = function() {
         }
         // event po klikniecu dnia na kalendarzu
         element.addEventListener('click', (e) => {
-            if ( e.target != element) return;
+            //if ( e.target != element) return;
             const modalChildren = myModal.getElementsByClassName('modal-body')[0].children;
 
             if ( modalChildren[5].firstElementChild.src !== data.apodImage.hdurl ) {
@@ -233,11 +235,12 @@ const setCalendarView = function() {
         element.style.cursor = "pointer";
         
         element.children[1].innerHTML = data.name;
-        element.children[2].onload = function() {
+        element.children[2].firstElementChild.onload = function() {
             URL.revokeObjectURL(this.src);
         }
         element.children[2].onclick = zommInImage;
-        element.children[2].src = URL.createObjectURL(data.photo);
+        element.children[2].firstElementChild.src = URL.createObjectURL(data.photo);
+        element.children[2].firstElementChild.style.display = 'block';
         element.children[3].innerHTML = new Date().getFullYear() - data.birthDate.getFullYear() + " births";
         element.children[4].innerHTML = data.email;
     }
@@ -246,6 +249,7 @@ const setCalendarView = function() {
     function clearBirthInCalendar(element) {
         element.children[1].innerHTML = "";
         element.children[2].src = "";
+        element.children[2].firstElementChild.style.display = "none";
         element.children[3].innerHTML = "";
         element.children[4].innerHTML = "";
         element.style.backgroundImage = '';

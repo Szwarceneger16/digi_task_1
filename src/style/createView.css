@@ -48,19 +48,19 @@ body {
     grid-gap: 5px;
 }
 
-#createView label {
+#personBirthDayAddForm label {
     align-self: center;
     
 }
 
-#createView .errorMessage {
+#personBirthDayAddForm .errorMessage {
     align-self: flex-start;
     justify-self: start;
     grid-column-start: 2;
     color: rgb(163, 0, 0);
 }
 
-#createView .input-field-image {
+#personBirthDayAddForm .input-field-image {
     outline: none;
     align-self: center;
 }
@@ -76,22 +76,22 @@ body {
 	outline: none;
 }
 
-#createView span.required{
+#personBirthDayAddForm span.required{
 	color:red;
 }
-#createView input:focus{
+#personBirthDayAddForm input:focus{
 	border: 2px solid rgb(4, 0, 255);
 }
 
-#createView .valid{
+#personBirthDayAddForm .valid{
 	border: 2px solid rgb(68, 216, 0);
 }
 
-#createView .invalid{
+#personBirthDayAddForm .invalid{
 	border: 2px solid rgb(255, 0, 0);
 }
 
-#createView .formField button{
+.formField button{
 	grid-column: span 2;
 }
 

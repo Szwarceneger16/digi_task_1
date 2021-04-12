@@ -56,7 +56,7 @@ document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
             `<div class='day'>
                 <p>${index}</p>
                 <p></p>
-                <img>
+                <div class="dayImg"><img></div>
                 <p></p>
                 <p></p>
             </div>`
