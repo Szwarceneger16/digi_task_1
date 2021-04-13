@@ -1,8 +1,11 @@
 body {
-	
+	max-width: 1920px;
+	margin: auto;
 }
 
 .navbar {
+	margin-top: 5px;
+	margin-right: -5px;
 	width: 100%;
 	text-align: end;
 }
@@ -16,12 +19,12 @@ body {
 	border-radius: 3px;
 }
 
-#toogleViewButton:disabled {
+.main-button:disabled {
 	background: #2e2d2b;
 	color: rgb(189, 189, 189);
 }
 
-.main-button:hover{
+.main-button:enabled:hover {
 	background: #EA7B00;
 	color: #fff;
 }
@@ -34,9 +37,6 @@ body {
 #createView {
     margin: auto;
     width: min-content;
-    --set-font-size: 1.0em;
-    --inputs-width: 48%;
-    --labels-width: 20%;
 	display: block;
 	margin-top: 5vh;
 }

@@ -118,34 +118,34 @@ async function toggleViews() {
         showViewElement = document.getElementById('showView');
     
         if (  window.getComputedStyle(createViewElement, null).display === 'block' ) {
-            createViewElement.style.animation = 'toggleViewAniamtion 1s 1 normal both';     
+            createViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 normal both`;     
 
             setTimeout( () => {
                 createViewElement.style.display = 'none';
                 showViewElement.style.display = 'block';
-                showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both';
+                showViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 reverse both`;
                 
                 setTimeout( () => {
                     createViewElement.style.animation = '';
                     showViewElement.style.animation = '';
                     resolve()
-                }, 1000);
+                }, viewPageAniamtionDuration*1000);
                 
-            },1000)
+            },viewPageAniamtionDuration*1000)
         } else {
-            showViewElement.style.animation = 'toggleViewAniamtion 1s 1 both';
+            showViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 both`;
             
             setTimeout( () => {
                 showViewElement.style.display = 'none';
                 createViewElement.style.display = 'block';
-                createViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both ';
+                createViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 reverse both`;
                 
                 setTimeout( () => {
                     showViewElement.style.animation = '';
                     createViewElement.style.animation = '';
                     resolve()
-                }, 1000);
-            },1000)
+                }, viewPageAniamtionDuration*1000);
+            },viewPageAniamtionDuration*1000)
         }
     });
 }
@@ -157,8 +157,6 @@ const setCalendarView = function() {
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
-
-
 
     const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
     // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
@@ -402,7 +400,7 @@ function setListView(date) {
         const liElement = document.createElement('li');
         liElement.insertAdjacentHTML('beforeend', 
             `<p>${birthday.birthDate.toDateString()}</p>
-                <div><img class="dayImgInner" src=${birthday.apodImage.url}></div>
+                <div><img class="zoomOut" src=${birthday.apodImage.url}></div>
                 <p>${birthday.name}</p>
                 <p>${birthday.email}</p>
                 <button>
