@@ -1,4 +1,4 @@
-
+'use strict';
 // document.forms[0][0].value = 'dfdffd'
 // document.forms[0][1].valueAsDate = new Date()
 // document.forms[0][3].value = 'sdasd@dasdad'
@@ -56,7 +56,7 @@ document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
             `<div class='day'>
                 <p>${index}</p>
                 <p></p>
-                <div class="dayImg"><img></div>
+                <div class="dayImg"><img class="dayImgInner"></div>
                 <p></p>
                 <p></p>
             </div>`

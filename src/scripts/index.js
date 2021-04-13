@@ -1,3 +1,4 @@
+'use strict';
 import storage from './dependencies/storage.js';
 
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -16,7 +17,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }, false
     );
 
-    // dodanie venetow dla przyciskow do obslugi kalendarza
+    // dodanie evnetow dla przyciskow do obslugi kalendarza
     {
         const calendarHeaderButtons = document.querySelectorAll('#calendarHeader button');
         // prev button
@@ -96,6 +97,20 @@ async function getDataFromAPODApi(date) {
 }
 //window.getAPOD = getDataFromAPODApi;
 
+const zoomOutImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.classList.remove('zoomIn');
+    e.target.onclick = zoomInImage;
+}
+const zoomInImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = e.target;
+    target.classList.add('zoomIn');
+    target.onclick = zoomOutImage;
+}
+
 // animacja przejscia pomiedzy formualrzem a kalendarzem
 async function toggleViews() {
     return new Promise(function(resolve, reject) {
@@ -103,14 +118,13 @@ async function toggleViews() {
         showViewElement = document.getElementById('showView');
     
         if (  window.getComputedStyle(createViewElement, null).display === 'block' ) {
-            createViewElement.style.animation = 'toggleViewAniamtion 1s 1 normal both';
-            
+            createViewElement.style.animation = 'toggleViewAniamtion 1s 1 normal both';     
 
             setTimeout( () => {
                 createViewElement.style.display = 'none';
                 showViewElement.style.display = 'block';
                 showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both';
-                // showViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both';
+                
                 setTimeout( () => {
                     createViewElement.style.animation = '';
                     showViewElement.style.animation = '';
@@ -119,15 +133,13 @@ async function toggleViews() {
                 
             },1000)
         } else {
-            //debugger;
             showViewElement.style.animation = 'toggleViewAniamtion 1s 1 both';
-            
             
             setTimeout( () => {
                 showViewElement.style.display = 'none';
                 createViewElement.style.display = 'block';
                 createViewElement.style.animation = 'toggleViewAniamtion 1s 1 reverse both ';
-                // createViewElement.style.animation = 'toggleViewAniamtion 1s 1s 1 reverse both';
+                
                 setTimeout( () => {
                     showViewElement.style.animation = '';
                     createViewElement.style.animation = '';
@@ -146,24 +158,7 @@ const setCalendarView = function() {
     "July", "August", "September", "October", "November", "December"
     ];
 
-    const zoomOutImage = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        e.target.classList.remove('zoomIn');
-        e.target.onclick = zommInImage;
-    }
-    const zommInImage = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        debugger;
-        const target = e.target;
-        // target.style.position = "fixed";
-        // target.style.zIndex = 100;
-        // target.style.width = "50vw";
-        // target.style.height = "50vh";
-        target.classList.add('zoomIn');
-        target.onclick = zoomOutImage;
-    }
+
 
     const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
     // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
@@ -221,7 +216,7 @@ const setCalendarView = function() {
         element.children[2].firstElementChild.onload = function() {
             URL.revokeObjectURL(this.src);
         }
-        element.children[2].onclick = zommInImage;
+        element.children[2].onclick = zoomInImage;
         element.children[2].firstElementChild.src = URL.createObjectURL(data.photo);
         element.children[2].firstElementChild.style.display = 'block';
         element.children[3].innerHTML = new Date().getFullYear() - data.birthDate.getFullYear() + " births";
@@ -404,10 +399,10 @@ function setListView(date) {
         
     });
     birthsInThisYear.slice(birthsInThisYearIndex).forEach( birthday => {
-        listOfBirthdaysElement.insertAdjacentHTML('beforeend', 
-            `<li>
-                <p>${birthday.birthDate.toDateString()}</p>
-                <img src=${birthday.apodImage.url}>
+        const liElement = document.createElement('li');
+        liElement.insertAdjacentHTML('beforeend', 
+            `<p>${birthday.birthDate.toDateString()}</p>
+                <div><img class="dayImgInner" src=${birthday.apodImage.url}></div>
                 <p>${birthday.name}</p>
                 <p>${birthday.email}</p>
                 <button>
@@ -417,8 +412,10 @@ function setListView(date) {
                 <button>
                     <img author='bqlqn' title="bqlqn" 
                     from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
-                </button>
-            </li>`
+                </button>`
             )
+        const img = liElement.getElementsByTagName('img')[0];
+        img.onclick = zoomInImage;
+        listOfBirthdaysElement.appendChild(liElement);
     })
 }
