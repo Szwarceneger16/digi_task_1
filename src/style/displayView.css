@@ -163,7 +163,6 @@
 
 .modal-content {
 	background-color: orange;
-	cursor: none;
 	border: 1px solid #888;
     box-shadow: 10px 10px 17px #CC8989;
     position: absolute;
@@ -248,16 +247,19 @@
 }
 
 #listOfBirthdays li:first-child {
-	background-color: rgb(158, 91, 91);
+	background-color: #b1fffba1;
 	grid-template-rows: 5vh;
 }
 
 #listOfBirthdays li button {
 	height: 100%;
 	width: 100%;
-	padding: 20%;
 	border: none;
 	background: none;
+}
+
+#listOfBirthdays li button img {
+	width: inherit;
 }
 
 #listOfBirthdays li input, #listOfBirthdays li p {
@@ -296,4 +298,9 @@
         top: 25vh;
         left: 25vw;
     }
+}
+
+.blur {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
 }

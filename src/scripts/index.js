@@ -251,7 +251,7 @@ const setCalendarView = function() {
             setListView(calendarDateReference);
             
         } else if ( typeof dateNow === "number") {
-            moveCalendarViewByMonth(dateNow);
+            if (dateNow !== 0) moveCalendarViewByMonth(dateNow);
 
         }else {
             return false;
@@ -381,15 +381,16 @@ function setListView(date) {
             const id = birthday.id.valueOf();
             const element = el;
             el.children[0].innerHTML = birthday.birthDate.toDateString();
-            el.children[1].onload = function() {
+
+            liElement.children[1].firstElementChild.onload = function() {
                 URL.revokeObjectURL(this.src);
             }
-            el.children[1].src = URL.createObjectURL(birthday.photo);
+            liElement.children[1].firstElementChild.src = URL.createObjectURL(birthday.photo);
 
             el.children[2].innerHTML = birthday.name;
             el.children[3].innerHTML = birthday.email;
-            el.children[4].onclick = function() { editBirth(id,element) } ;
-            el.children[5].onclick = function() { deleteBirth(id,element) };
+            el.children[4].onclick = function(e) { editBirth(id,e.currentTarget.parentElement) } ;
+            el.children[5].onclick = function(e) { deleteBirth(id,e.currentTarget.parentElement) };
             birthsInThisYearIndex++;
         } else {
             el.parentElement.removeChild(el);
@@ -400,20 +401,27 @@ function setListView(date) {
         const liElement = document.createElement('li');
         liElement.insertAdjacentHTML('beforeend', 
             `<p>${birthday.birthDate.toDateString()}</p>
-                <div><img class="zoomOut" src=${birthday.apodImage.url}></div>
-                <p>${birthday.name}</p>
-                <p>${birthday.email}</p>
-                <button>
-                    <img author='bqlqn' title="bqlqn" 
-                    from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
-                </button>
-                <button>
-                    <img author='bqlqn' title="bqlqn" 
-                    from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
-                </button>`
-            )
-        const img = liElement.getElementsByTagName('img')[0];
-        img.onclick = zoomInImage;
+            <div><img class="zoomOut"></div>
+            <p>${birthday.name}</p>
+            <p>${birthday.email}</p>
+            <button>
+                <img author='bqlqn' title="bqlqn" 
+                from="https://www.flaticon.com/authors/bqlqn" src="./../img/pencil.svg">
+            </button>
+            <button>
+                <img author='bqlqn' title="bqlqn" 
+                from="https://www.flaticon.com/authors/bqlqn" src="./../img/trash.svg">
+            </button>`
+        )
+        liElement.children[1].firstElementChild.onload = function() {
+            URL.revokeObjectURL(this.src);
+        }
+        liElement.children[1].firstElementChild.src = URL.createObjectURL(birthday.photo);
+        liElement.children[1].firstElementChild.onclick = zoomInImage;
+        liElement.children[4].onclick = (e) => editBirth(birthday.id, e.currentTarget.parentElement);
+        liElement.children[5].onclick = (e) => deleteBirth(birthday.id, e.currentTarget.parentElement);
         listOfBirthdaysElement.appendChild(liElement);
     })
+
+
 }
