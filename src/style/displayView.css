@@ -30,7 +30,7 @@
 
 @media only screen and (min-width: 750px) {
     #calendarHeader p {
-        font-size: min(5vw,5vh);
+        font-size: min(7vw,7vh);
     }
     #calendarHeader button {
         font-size: min(3vw,3vh);
@@ -74,7 +74,7 @@
     grid-template-rows: 40% 20% 40%;
     place-items: center;
     border-radius: 10px;
-    word-wrap: break-word;
+    word-wrap: anywhere;
     overflow: hidden;
 }
 
@@ -83,7 +83,8 @@
     font-weight: 600;
     color: #ff1111;
     font-size: min(1.5vh,1em) ;
-    background-color: #00000036;
+    /* background-color: #00000036; */
+    text-shadow: 2px 2px #000000bb;
     margin-block-start: 0em;
     margin-block-end: 0em;
     margin: 5%;
@@ -98,6 +99,7 @@
 
 
 #calendar .day p:first-child {
+    text-shadow: none;
     font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
     border: 1px solid #C2C2C2;
@@ -162,7 +164,7 @@
 }
 
 .modal-content {
-	background-color: orange;
+	background-color: aliceblue;
 	border: 1px solid #888;
     box-shadow: 10px 10px 17px #CC8989;
     position: absolute;
@@ -252,8 +254,7 @@
 }
 
 #listOfBirthdays li button {
-	height: 100%;
-	width: 100%;
+    width: min(100%,5.5vh);
 	border: none;
 	background: none;
 }

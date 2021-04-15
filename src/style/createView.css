@@ -1,6 +1,8 @@
 body {
 	max-width: 1920px;
 	margin: auto;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 500;
 }
 
 .navbar {

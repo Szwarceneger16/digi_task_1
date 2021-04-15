@@ -245,6 +245,7 @@ const setCalendarView = function() {
         
         if ( typeof dateNow === 'undefined' ) return false;
         // przypisanie daty do kalendarza jesli nie jest zadna przypisana
+        debugger;
         if ( dateNow instanceof Date ) {
             
             initCalendarDateReference(dateNow);
@@ -252,7 +253,7 @@ const setCalendarView = function() {
             
         } else if ( typeof dateNow === "number") {
             if (dateNow !== 0) moveCalendarViewByMonth(dateNow);
-
+            setListView(calendarDateReference);
         }else {
             return false;
         }
@@ -270,8 +271,14 @@ const setCalendarView = function() {
         const setCalendarDayCard = (el,index) => {
             if ( birthsInThisMonth[birthsInThisMonthIndex] && index === 
                 birthsInThisMonth[birthsInThisMonthIndex].birthDate.getDate() - 1 ) {
+
                 addBirthInCalendar(birthsInThisMonth[birthsInThisMonthIndex], el);
                 birthsInThisMonthIndex++;
+                while ( birthsInThisMonth[birthsInThisMonthIndex] && index === 
+                    birthsInThisMonth[birthsInThisMonthIndex].birthDate.getDate() - 1 ) {
+                    addBirthInCalendar(birthsInThisMonth[birthsInThisMonthIndex], el);
+                    birthsInThisMonthIndex++;  
+                }
             } else {
                 clearBirthInCalendar(el);
             }
@@ -382,10 +389,10 @@ function setListView(date) {
             const element = el;
             el.children[0].innerHTML = birthday.birthDate.toDateString();
 
-            liElement.children[1].firstElementChild.onload = function() {
+            el.children[1].firstElementChild.onload = function() {
                 URL.revokeObjectURL(this.src);
             }
-            liElement.children[1].firstElementChild.src = URL.createObjectURL(birthday.photo);
+            el.children[1].firstElementChild.src = URL.createObjectURL(birthday.photo);
 
             el.children[2].innerHTML = birthday.name;
             el.children[3].innerHTML = birthday.email;
