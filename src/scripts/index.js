@@ -3,12 +3,12 @@ import storage from './dependencies/storage.js';
 
 window.addEventListener('DOMContentLoaded', (event) => {
     // dodanie obslugi formualrza dla rpzycisku submit
-    document.getElementById('personBirthDayAddFormSubmitButton').addEventListener(
+    document.getElementById('person-birth-day-add-form-submit-button').addEventListener(
         'click', 
         valdiateForm
     );
 
-    document.getElementById('toogleViewButton').addEventListener(
+    document.getElementById('toogle-view-button').addEventListener(
         'click', 
         async (e) => {
             e.target.setAttribute('disabled',"");
@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // dodanie evnetow dla przyciskow do obslugi kalendarza
     {
-        const calendarHeaderButtons = document.querySelectorAll('#calendarHeader button');
+        const calendarHeaderButtons = document.querySelectorAll('#calendar-header button');
         // prev button
         calendarHeaderButtons[0].addEventListener( 'click' , () => {
             setCalendarView(-1);
@@ -52,14 +52,14 @@ function valdiateForm() {
         return false;
     }
 
-    document.getElementById('toogleViewButton').removeAttribute('disabled');
+    document.getElementById('toogle-view-button').removeAttribute('disabled');
 
     const newDataObject = {
         "name": formElements['name'].value,
-        "birthDate": formElements['birthDate'].valueAsDate,
+        "birthDate": formElements['birth-date'].valueAsDate,
         "photo" : formElements['photo'].files[0],
-        "email": formElements['email'].value,
-        "phoneNumber": formElements['phoneNumber'].value
+        "email": formElements['e-mail'].value,
+        "phoneNumber": formElements['phone-number'].value
     }
 
     
@@ -114,51 +114,52 @@ const zoomInImage = (e) => {
 // animacja przejscia pomiedzy formualrzem a kalendarzem
 async function toggleViews() {
     return new Promise(function(resolve, reject) {
-        const createViewElement = document.getElementById('createView'),
-        showViewElement = document.getElementById('showView');
+        const createQueryViewElement = document.getElementById('create-query-view'),
+        showViewElement = document.getElementById('show-calendar-view');
     
-        if (  window.getComputedStyle(createViewElement, null).display === 'block' ) {
-            createViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 normal both`;     
+        if (  window.getComputedStyle(createQueryViewElement, null).display === 'block' ) {
+            createQueryViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 normal both`;     
 
             setTimeout( () => {
-                createViewElement.style.display = 'none';
+                createQueryViewElement.style.display = 'none';
                 showViewElement.style.display = 'block';
-                showViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 reverse both`;
+                showViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 reverse both`;
                 
                 setTimeout( () => {
-                    createViewElement.style.animation = '';
+                    createQueryViewElement.style.animation = '';
                     showViewElement.style.animation = '';
                     resolve()
-                }, viewPageAniamtionDuration*1000);
+                }, togglePageAniamtionDuration*1000);
                 
-            },viewPageAniamtionDuration*1000)
+            },togglePageAniamtionDuration*1000)
         } else {
-            showViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 both`;
+            showViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 both`;
             
             setTimeout( () => {
                 showViewElement.style.display = 'none';
-                createViewElement.style.display = 'block';
-                createViewElement.style.animation = `toggleViewAniamtion ${viewPageAniamtionDuration}s 1 reverse both`;
+                createQueryViewElement.style.display = 'block';
+                createQueryViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 reverse both`;
                 
                 setTimeout( () => {
                     showViewElement.style.animation = '';
-                    createViewElement.style.animation = '';
+                    createQueryViewElement.style.animation = '';
                     resolve()
-                }, viewPageAniamtionDuration*1000);
-            },viewPageAniamtionDuration*1000)
+                }, togglePageAniamtionDuration*1000);
+            },togglePageAniamtionDuration*1000)
         }
     });
 }
 
 const setCalendarView = function() {
     let calendarDateReference = undefined;
+    const apodDataModal = document.getElementById('apod-data-modal');
 
     // nazwy meisiecy do kalendarza
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
 
-    const calendarHeaderElementChilds = document.getElementById('calendarHeader').children;
+    const calendarHeaderElementChilds = document.getElementById('calendar-header').children;
     // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
     const moveCalendarViewByMonth = (direction) => {
         if ( typeof direction !== 'number') return;
@@ -185,7 +186,7 @@ const setCalendarView = function() {
         element.style.backgroundImage = `url(${data.apodImage.url})`;
 
         // jesli modal byl dotychczas nie uzyty, natychmaistowe przypisanie danych
-        const modalChildren = myModal.getElementsByClassName('modal-body')[0].children;
+        const modalChildren = apodDataModal.getElementsByClassName('modal-body')[0].children;
         if ( modalChildren[5].firstElementChild.src === '') {
             modalChildren[1].innerText = data.apodImage.title;
             modalChildren[3].innerText = data.apodImage.explanation;
@@ -194,7 +195,7 @@ const setCalendarView = function() {
         // event po klikniecu dnia na kalendarzu
         element.addEventListener('click', (e) => {
             //if ( e.target != element) return;
-            const modalChildren = myModal.getElementsByClassName('modal-body')[0].children;
+            const modalChildren = apodDataModal.getElementsByClassName('modal-body')[0].children;
 
             if ( modalChildren[5].firstElementChild.src !== data.apodImage.hdurl ) {
                 modalChildren[1].innerText = data.apodImage.title;
@@ -205,7 +206,7 @@ const setCalendarView = function() {
                     e.target.style.display = 'block';
                 } 
             }  
-            myModal.style.display = "block";  
+            apodDataModal.style.display = "block";  
 
         }, false )
         element.style.cursor = "pointer";
@@ -245,7 +246,6 @@ const setCalendarView = function() {
         
         if ( typeof dateNow === 'undefined' ) return false;
         // przypisanie daty do kalendarza jesli nie jest zadna przypisana
-        debugger;
         if ( dateNow instanceof Date ) {
             
             initCalendarDateReference(dateNow);
@@ -317,23 +317,26 @@ function editBirth(id,element) {
         }
 
         element.children[0].innerHTML = newLiChildren[0].valueAsDate.toDateString();
-        element.children[1].src =  URL.createObjectURL(newLiChildren[1].files[0]);
-        element.children[1].onload = function() {
-            URL.revokeObjectURL(this.src);
-        }
+        if (newLiChildren[1].files[0]) {
+            element.children[1].src =  URL.createObjectURL(newLiChildren[1].files[0]);
+            element.children[1].onload = function() {
+                URL.revokeObjectURL(this.src);
+            }
+        }   
         element.children[2].innerHTML = newLiChildren[2].value;
         element.children[3].innerHTML = newLiChildren[3].value;
 
         const newData = {
             "dateBirth": newLiChildren[0].valueAsDate,
-            "photo": newLiChildren[1].files[0],
             "name": newLiChildren[2].value,
             "email": newLiChildren[3].value
         }
+        if (newLiChildren[1].files[0]) {
+            newData.photo = newLiChildren[1].files[0];
+        }
         storage.editBirth(id,newData);
-        setCalendarView(0);
-
         element.parentElement.removeChild(newLiElement);
+        setCalendarView(0);
         element.style.display = 'grid';
 
     }
@@ -343,7 +346,7 @@ function editBirth(id,element) {
     newLiElement.insertAdjacentHTML('beforeend',`
     <input type='date' class='input-field' required value='${ 
         new Date(elementChildren[0].innerHTML).toISOString().split("T")[0]}'>
-    <input type='file' accept="image/png, image/jpeg" style='width:90%' required>
+    <input type='file' accept="image/png, image/jpeg" style='width:90%' >
     <input type='text' class='input-field' value='${elementChildren[2].innerHTML}' required>
     <input type='email' class='input-field' value='${elementChildren[3].innerHTML}' required>
     <button>
@@ -374,7 +377,7 @@ function deleteBirth(id,element) {
 
 function setListView(date) {
 
-    const listOfBirthdaysElement = document.getElementById('listOfBirthdays');
+    const listOfBirthdaysElement = document.getElementById('list-of-birthdays');
     const listOfBirthdaysChildren = listOfBirthdaysElement.children;
 
     // dodanie do listy wszytskich urodzin w danym roku

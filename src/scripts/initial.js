@@ -5,7 +5,7 @@
 // document.forms[0][4].value = '555-555-555'
 // obsluga modala
 {
-    const modal = document.getElementById("myModal");
+    const modal = document.getElementById("apod-data-modal");
     modal.getElementsByClassName('modal-close')[0].addEventListener('click', (e) => {
         e.preventDefault();
         modal.style.display = "none";
@@ -17,7 +17,7 @@
 }
 
 // ustawienie pola z wyborem aktualnej daty urodzin maksymalnie na dzis
-document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
+document.forms[personBirthDayAddForm].elements['birth-date'].setAttribute(
     'max',
     new Date().toISOString().split("T")[0]
 );
@@ -56,7 +56,7 @@ document.forms[personBirthDayAddForm].elements.birthDate.setAttribute(
             `<div class='day'>
                 <p>${index}</p>
                 <p></p>
-                <div class="dayImg"><img class="zoomOut"></div>
+                <div class="day-img"><img class="zoomOut"></div>
                 <p></p>
                 <p></p>
             </div>`

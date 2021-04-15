@@ -1,3 +1,3 @@
-const personBirthDayAddForm = 'personBirthDayAddForm',
+const personBirthDayAddForm = 'person-birth-day-add-form',
     keyApiAPOD = 'NpRGSKyi5LzJO3uckC1UabCrScL8MJjWVgQehtBz',
-    viewPageAniamtionDuration = 1; // seconds
+    togglePageAniamtionDuration = 1; // seconds
