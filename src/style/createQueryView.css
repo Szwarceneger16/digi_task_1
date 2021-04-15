@@ -52,7 +52,6 @@ body {
 
 #person-birth-day-add-form label {
     align-self: center;
-    
 }
 
 #person-birth-day-add-form .error-message {
@@ -64,12 +63,33 @@ body {
 	padding: 5px 0px;
 }
 
-#person-birth-day-add-form .input-field-image {
-    outline: none;
-    align-self: center;
+.input-field-file {
+    cursor: pointer;
+	position: relative;
+	text-align: center;
+} 
+
+
+.input-field-file input[type="file"] {
+	opacity: 0;
+	position: absolute;
+	width: 90%;
+	margin: 5%;
 }
 
-.input-field
+.input-field-file label {
+	width: 100%;
+	display: inline-block;
+	background: white;
+}
+
+/* input[type="file"] + label {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+} */
+
+.input-field , .input-field-file label
 {
     align-self: center;
 	box-sizing: border-box;

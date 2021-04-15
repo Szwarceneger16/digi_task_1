@@ -2,81 +2,6 @@
 const dataBase = [];
 let id = 0;
 
-/* let isStale = false, blockAdd = false;
-const asyncStorage =  {
-    // name,photo,birthDate,eMail,phoneNumber
-    addBirth: async function(data) {
-        isStale = true;
-
-
-        try {
-            await new Promise(function(resolve, reject) {
-                let intervalFuncionHandler,counter = 0;
-                const res = () => {
-                    counter++;
-                    if (coutner > 100) reject();
-                    if (!isStale) {
-                        clearInterval(intervalFuncionHandler);
-                        resolve();
-                    }
-                }
-                intervalFuncionHandler = setInterval(res, 100);
-            })
-        } catch (error) {
-            return undefined;
-        }
-        
-        data.name = "jan";
-
-        // const newDataObject = {
-        //     "name": name,
-        //     "birthDate": birthDate,
-        //     "image" : {
-        //     },
-        //     "email": eMail,
-        //     "phoneNumber": phoneNumber
-        // }
-        getDataFromAPODApi(data.birthDate)
-        .then(res => {
-
-            isStale = false;
-        })
-
-    },
-    deleteBirth: function(birthDate) {
-
-    },
-    getBirths: async function () {
-        blockAdd = true;
-        if (!isStale) {
-            const ret = Object.assign( {}, dataBase);
-            blockAdd = false;
-            return ret;
-        }
-
-        try {
-            await new Promise(function(resolve, reject) {
-                let intervalFuncionHandler,counter = 0;
-                const res = () => {
-                    counter++;
-                    if (coutner > 100) reject();
-                    if (!isStale) {
-                        clearInterval(intervalFuncionHandler);
-                        resolve();
-                    }
-                }
-                intervalFuncionHandler = setInterval(res, 100);
-            })
-        } catch (error) {
-            return undefined;
-        }
-
-        const ret = Object.assign( {}, dataBase);
-        blockAdd = false;
-        return ret;
-    }
-} */
-
 const getBirthIdFromDataBase = (dataToFind) => {
     const index = dataBase.findIndex( (el) => {
         
@@ -88,6 +13,7 @@ const getBirthIdFromDataBase = (dataToFind) => {
     return [ dataBase[index].id , index];
 }
 
+// pobranie indeksu obiektu o żądanym id
 const getBirthObjectIndexFromDataBase = (id) => {
     return dataBase.findIndex( (el) => {
         if ( el["id"] === id) return true;
@@ -95,6 +21,7 @@ const getBirthObjectIndexFromDataBase = (id) => {
     })
 }
 
+// pobranie obiektu o żądanym id
 const getBirthObjectFromDataBase = (id) => {
     return dataBase.find( (el) => {
         if ( el["id"] === id) return true;
@@ -102,9 +29,9 @@ const getBirthObjectFromDataBase = (id) => {
     })
 }
 
-// wrapper dla funkcji obslogujacych baze danych
+// wrapper dla funkcji obsługujących bazę danych
 const storage = {
-    addBirth: function(dataToAppend/* name,photo,birthDate,eMail,phoneNumber */) {
+    addBirth: function(dataToAppend) {
         const dataCopy = Object.assign({}, dataToAppend)
         dataCopy.id = id.valueOf();
         id++;

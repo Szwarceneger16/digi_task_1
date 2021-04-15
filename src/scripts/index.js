@@ -2,12 +2,13 @@
 import storage from './dependencies/storage.js';
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    // dodanie obslugi formualrza dla rpzycisku submit
+    // dodanie obslugi formualrza dla przycisku submit
     document.getElementById('person-birth-day-add-form-submit-button').addEventListener(
         'click', 
         valdiateForm
     );
 
+    // dodanie eventu onclick dla przycisku do zmiany widoków
     document.getElementById('toogle-view-button').addEventListener(
         'click', 
         async (e) => {
@@ -30,6 +31,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         })
     }
 
+    //ustawienie poczatkowego widoku kalendarza na dzis
     setCalendarView(0);
 });
 
@@ -37,22 +39,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 function valdiateForm() {
     const form = document.forms[personBirthDayAddForm];
     const formElements = form.elements;
+    const formErrorFields = document.forms[personBirthDayAddForm].getElementsByClassName('error-message');
 
     for (let index = 0; index < form.length; index++) {
         const element = formElements[index];
         
         if (!element.checkValidity()) {
-            element.nextElementSibling.innerHTML = element.validationMessage;
+            formErrorFields[index].innerHTML = element.validationMessage;
         } else {
-            element.nextElementSibling.innerHTML = "";
+            formErrorFields[index].innerHTML = "";
         } 
     }
 
     if (  !form.checkValidity() ) {
         return false;
     }
-
-    document.getElementById('toogle-view-button').removeAttribute('disabled');
 
     const newDataObject = {
         "name": formElements['name'].value,
@@ -65,6 +66,7 @@ function valdiateForm() {
     
     toggleViews().then( () => form.reset() )
     
+    // przetworzenie podanych danych w formularzu
     getDataFromAPODApi(newDataObject.birthDate)
     .then( res => {
         delete res.date;
@@ -97,6 +99,7 @@ async function getDataFromAPODApi(date) {
 }
 //window.getAPOD = getDataFromAPODApi;
 
+// powiekszanie/oddalanie obrazu dodanego przez uzytkownika
 const zoomOutImage = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -118,34 +121,42 @@ async function toggleViews() {
         showViewElement = document.getElementById('show-calendar-view');
     
         if (  window.getComputedStyle(createQueryViewElement, null).display === 'block' ) {
-            createQueryViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 normal both`;     
-
-            setTimeout( () => {
+            // aniamcja wyjsciowa
+            createQueryViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 normal both`;    
+            
+            //aniamcja wejsciowa
+            createQueryViewElement.onanimationend = () => {
                 createQueryViewElement.style.display = 'none';
+                createQueryViewElement.onanimationend = null;
                 showViewElement.style.display = 'block';
                 showViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 reverse both`;
                 
-                setTimeout( () => {
+                showViewElement.onanimationend = () => {
                     createQueryViewElement.style.animation = '';
                     showViewElement.style.animation = '';
-                    resolve()
-                }, togglePageAniamtionDuration*1000);
+                    showViewElement.onanimationend = null;
+                    resolve();
+                };
                 
-            },togglePageAniamtionDuration*1000)
+            };
         } else {
+            // aniamcja wyjsciowa
             showViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 both`;
             
-            setTimeout( () => {
+            //aniamcja wejsciowa
+            showViewElement.onanimationend = () => {
+                showViewElement.onanimationend = null;
                 showViewElement.style.display = 'none';
                 createQueryViewElement.style.display = 'block';
                 createQueryViewElement.style.animation = `toggleViewAniamtion ${togglePageAniamtionDuration}s 1 reverse both`;
                 
-                setTimeout( () => {
+                createQueryViewElement.onanimationend = () => {
                     showViewElement.style.animation = '';
                     createQueryViewElement.style.animation = '';
-                    resolve()
-                }, togglePageAniamtionDuration*1000);
-            },togglePageAniamtionDuration*1000)
+                    createQueryViewElement.onanimationend = null;
+                    resolve();
+                };
+            };
         }
     });
 }
@@ -154,17 +165,17 @@ const setCalendarView = function() {
     let calendarDateReference = undefined;
     const apodDataModal = document.getElementById('apod-data-modal');
 
-    // nazwy meisiecy do kalendarza
+    // nazwy miesiecy do kalendarza
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
 
     const calendarHeaderElementChilds = document.getElementById('calendar-header').children;
-    // funkcja zmianiajaca date referencyjna dla kalendarz o miesiac w przod/w tyl
+    // funkcja widok kalendarza o miesiac w przod/w tyl
     const moveCalendarViewByMonth = (direction) => {
         if ( typeof direction !== 'number') return;
         const actualMonth = calendarDateReference.getMonth();
-        direction = direction > 0 ? 1 : -1;
+        direction = direction > 0 ? 1 : (direction < 0 ? -1 : 0);
         calendarDateReference.setMonth( actualMonth + direction);
 
         // ustawienie miesiaca dla kalendarza
@@ -211,6 +222,7 @@ const setCalendarView = function() {
         }, false )
         element.style.cursor = "pointer";
         
+        // wpisanie danych dla danego dnia w kalendarzu
         element.children[1].innerHTML = data.name;
         element.children[2].firstElementChild.onload = function() {
             URL.revokeObjectURL(this.src);
@@ -233,6 +245,7 @@ const setCalendarView = function() {
         element.style.cursor = "";
     }
 
+    // poczatkowa inicjalizacja kalendarza
     const initCalendarDateReference = (inputdate) => {
         calendarDateReference = new Date(inputdate.getTime());
         calendarDateReference.setDate(1);
@@ -252,6 +265,7 @@ const setCalendarView = function() {
             setListView(calendarDateReference);
             
         } else if ( typeof dateNow === "number") {
+            // zmiana widoku kalendarza o miesiac w przod lub w tyl
             if (dateNow !== 0) moveCalendarViewByMonth(dateNow);
             setListView(calendarDateReference);
         }else {
@@ -261,7 +275,7 @@ const setCalendarView = function() {
         const calendarElementChildreen =calendarElement.children;
         const numberOfDaysInMonth = daysInMonth(calendarDateReference);
 
-        // ustawienie wszytskich urodzin w danym miesiacu z bazy danych
+        // pobranie wszystkich urodzin w danym miesiacu z bazy danych
         const birthsInThisMonth = storage.getBirthsByMonth(calendarDateReference);
         birthsInThisMonth.sort( (firstElement,secondElement) => {
             return firstElement.birthDate.getDate() - secondElement.birthDate.getDate();
@@ -284,6 +298,7 @@ const setCalendarView = function() {
             }
         }
 
+        // przejscie po wszytskich dniach w kalendarzu, usuniecie starych danych i dodanie nowych
         // dni 1 -- 26
         Array.from(calendarElementChildreen).slice(7,33).forEach( (el,index) => {
             // dodanie urodzin dla danego dnia w widoku kalendarza lub wyczyszczeie pol
@@ -301,24 +316,31 @@ const setCalendarView = function() {
             }
         })
 
-        //ustawienie odpowiedniego dnia tygodnia dla peirwszego dnia miesiaca
+        //ustawienie odpowiedniego dnia tygodnia dla pierwszego dnia miesiaca
         calendarElementChildreen[7].style.gridColumnStart = calendarDateReference.getDay() + 1;
         return true;
     }
 }();
 
 function editBirth(id,element) {
+    // funkcja przetwarzajaca edycje
     const submitEdit = () => {
         const newLiChildren = newLiElement.children;
-        if ( !Array.from(newLiChildren).slice(0,4).every( element => {
+        let newLiChildreenArray = Array.from(newLiChildren);
+        // pola ktore sa wymagane
+        newLiChildreenArray = [newLiChildreenArray[0],newLiChildreenArray[2],newLiChildreenArray[3]]
+        if ( !newLiChildreenArray.slice(0,4).every( element => {
             return element.checkValidity();
         })) {
             return;
         }
 
         element.children[0].innerHTML = newLiChildren[0].valueAsDate.toDateString();
-        if (newLiChildren[1].files[0]) {
-            element.children[1].src =  URL.createObjectURL(newLiChildren[1].files[0]);
+        // jesli nowy plik zostal załadowany
+        if (newLiChildren[1].firstElementChild.files[0]) {
+            element.children[1].src = URL.createObjectURL(
+                newLiChildren[1].firstElementChild.files[0]
+            );
             element.children[1].onload = function() {
                 URL.revokeObjectURL(this.src);
             }
@@ -331,9 +353,11 @@ function editBirth(id,element) {
             "name": newLiChildren[2].value,
             "email": newLiChildren[3].value
         }
-        if (newLiChildren[1].files[0]) {
-            newData.photo = newLiChildren[1].files[0];
+        // jesli nowy plik zostal załadowany
+        if (newLiChildren[1].firstElementChild.files[0]) {
+            newData.photo = newLiChildren[1].firstElementChild.files[0];
         }
+        // zaktualziowanie widokow, bazy danych
         storage.editBirth(id,newData);
         element.parentElement.removeChild(newLiElement);
         setCalendarView(0);
@@ -342,11 +366,17 @@ function editBirth(id,element) {
     }
     const elementChildren = element.children;
 
+    // dodanie wiersza do edycji i ukrycie aktualnego
     const newLiElement = document.createElement('li');
     newLiElement.insertAdjacentHTML('beforeend',`
     <input type='date' class='input-field' required value='${ 
         new Date(elementChildren[0].innerHTML).toISOString().split("T")[0]}'>
-    <input type='file' accept="image/png, image/jpeg" style='width:90%' >
+        <p class="input-field-file">
+          <input name="photo" type="file" accept="image/png, image/jpeg" required="">
+          <label for="photo">
+            Photo upload
+          </label>
+        </p>
     <input type='text' class='input-field' value='${elementChildren[2].innerHTML}' required>
     <input type='email' class='input-field' value='${elementChildren[3].innerHTML}' required>
     <button>
@@ -369,12 +399,14 @@ function editBirth(id,element) {
     element.style.display = 'none';
 }
 
+//usuniecie wiersza (li) z listy
 function deleteBirth(id,element) {
     storage.deleteBirth(id);
     element.parentElement.removeChild(element);
     setCalendarView(0);
 }
 
+// funkcja aktualizujaca wyswieltanie listy
 function setListView(date) {
 
     const listOfBirthdaysElement = document.getElementById('list-of-birthdays');
@@ -385,7 +417,9 @@ function setListView(date) {
     // indeks do przebiegania tablicy birthsInThisYear
     let birthsInThisYearIndex = 0;
 
+    
     Array.from(listOfBirthdaysChildren).slice(1).forEach( (el) => {
+        // dla aktualnie istneijacych wierszy li edycja zawartosci
         if ( birthsInThisYearIndex < birthsInThisYear.length ) {
             const birthday = birthsInThisYear[birthsInThisYearIndex]; 
             const id = birthday.id.valueOf();
@@ -402,11 +436,13 @@ function setListView(date) {
             el.children[4].onclick = function(e) { editBirth(id,e.currentTarget.parentElement) } ;
             el.children[5].onclick = function(e) { deleteBirth(id,e.currentTarget.parentElement) };
             birthsInThisYearIndex++;
-        } else {
+        } // usuniecie nadmairowych wierszy
+        else {
             el.parentElement.removeChild(el);
         }
         
     });
+    //dodanie nowych wierszy jesli wyamgane
     birthsInThisYear.slice(birthsInThisYearIndex).forEach( birthday => {
         const liElement = document.createElement('li');
         liElement.insertAdjacentHTML('beforeend', 
